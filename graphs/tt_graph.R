@@ -23,4 +23,4 @@ while (length (vis) < 100) {
   i = i+1
 }
 
-plot (tt, vertex.color = "yellow", edge.color = "blue", edge.arrow.size = 0.1, layout = layout_with_kk, vertex.size = 8)
+plot (tt, vertex.color = "yellow", edge.color = "blue", edge.arrow.size = 0.1, layout = layout_with_kk, rescale=FALSE, xlim=c(-5,5), ylim=c(-4,5), vertex.size=50)
