@@ -65,12 +65,40 @@ V(UGG)$color = ifelse (V(UGG)$type, "blue", "red")
 tkplot (UGG, vertex.size = 5, vertex.label = NA, edge.color = "black", vertex.color = V(UGG)$color, edge.width = 0.5, layout = layout_with_kk)
 
 # components in the undirected graph
-comps = components(UGG)
+comps = components(UG)
+comps
 
 # decompose the graph into components
-comp = decompose(UGG)
+comp = decompose(UG)
 
 # plot the biggest component
 g = comp [[2]]
 tkplot (g, vertex.size = 2, vertex.label = NA, edge.color = "blue", vertex.color = "grey", edge.width = 0.5, layout = layout_with_kk)
+
+# Find closeness betweeness and degree dist of this component
+# Print degrees of the graph
+V(g)$degree = igraph::degree (g)
+V(g)$degree
+
+# Plot degree distribution
+tg = table (V(g)$degree)
+plot (tg)
+
+# Finding and printing the closeness of the graph
+V(g)$closeness = igraph::closeness(g)
+V(g)$closeness
+
+V(g)$betweenness = igraph::betweenness (g)
+V(g)$betweenness
+
+# Finding top nodes using all the three attributes
+Topdeg = order(V(g)$degree,decreasing=T)[1:5]
+Topclose = order(V(g)$closeness,decreasing=T)[1:5]
+Topbw = order(V(g)$betweenness,decreasing=T)[1:5]
+
+Top = intersect(Topdeg,Topclose)
+Top = intersect(Top,Topbw)
+
+# plot marking those nodes
+plot (g, mark.groups=Top, mark.col="yellow", vertex.size = 2, vertex.label = NA, edge.color = "blue", vertex.color = "grey", edge.width = 0.5, layout = layout_with_kk)
 
