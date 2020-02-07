@@ -32,7 +32,23 @@ t = table (V(Gd)$degree)
 plot (t)
 
 # Finding and printing the closeness of the graph
-V
+V(UG)$closeness = igraph::closeness(UG)
+V(UG)$closeness
+
+# Find and print betweeness of UG
+V(UG)$betweenness = igraph::betweenness (UG)
+V(UG)$betweenness
+
+# Finding top nodes using all the three attributes
+Topdeg = order(V(UG)$degree,decreasing=T)[1:5]
+Topclose = order(V(UG)$closeness,decreasing=T)[1:5]
+Topbw = order(V(UG)$betweenness,decreasing=T)[1:5]
+
+Top = intersect(Topdeg,Topclose)
+Top = intersect(Top,Topbw)
+
+# plot marking those nodes
+plot (UG, mark.groups=Top, mark.col="yellow", vertex.size = 2, vertex.label = NA, edge.color = "blue", vertex.color = "grey", edge.width = 0.5, layout = layout_with_kk)
 
 # Assign genders
 V(UG)[meta [,1]]$gender = meta [,3]
@@ -42,7 +58,8 @@ UGG = delete.vertices (UGG, V(UGG)$gender == "3")
 
 V(UGG)$type = ifelse(V(UGG)$gender == "1", T , F)
 # plot the undirected graph
-tkplot (UGG, vertex.size = 2, vertex.label = NA, edge.color = "blue", vertex.color = "grey", edge.width = 0.5, layout = layout_with_kk)
+V(UGG)$color = ifelse (V(UGG)$type, "blue", "red")
+tkplot (UGG, vertex.size = 5, vertex.label = NA, edge.color = "black", vertex.color = V(UGG)$color, edge.width = 0.5, layout = layout_with_kk)
 
 # components in the undirected graph
 comps = components(UGG)
