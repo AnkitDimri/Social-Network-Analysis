@@ -32,7 +32,7 @@ Gd = delete.vertices (UG, V(UG) [V(UG)$degree == 0])
 tkplot (Gd, vertex.size = 2, vertex.label = NA, edge.color = "blue", vertex.color = "grey", edge.width = 0.5, layout = layout_with_kk)
 # Plot degree distribution
 t = table (V(Gd)$degree)
-plot (t)
+plot (t, xlab = "degree", ylab = "frequency")
 
 # Finding and printing the closeness of the graph
 V(UG)$closeness = igraph::closeness(UG)
@@ -82,7 +82,7 @@ V(g)$degree
 
 # Plot degree distribution
 tg = table (V(g)$degree)
-plot (tg)
+plot (tg, xlab = "degree", ylab = "frequency")
 
 # Finding and printing the closeness of the graph
 V(g)$closeness = igraph::closeness(g)
