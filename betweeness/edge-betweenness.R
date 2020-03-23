@@ -1,10 +1,8 @@
 library (igraph)
 
-G = read.csv("~/ankit/Github/Social-Network-Analysis/dolphin.csv")
-G = graph_from_data_frame (G, directed = FALSE)
 
-
-find_community <- function (g) {
+find_community <- function (G) {
+  g = G
   com = components (g)$no
   
   while (com == 1) {
@@ -28,8 +26,8 @@ show_communities <- function (G) {
   
   comps = find_community (G)
   
-  c1 = comps$`1`
-  c2 = comps$`2`
+  c1 = as.integer (comps$`1`)
+  c2 = as.integer (comps$`2`)
   
   V(G)$color = ifelse (V(G) %in% c1, "green", "blue")
   
@@ -37,5 +35,6 @@ show_communities <- function (G) {
 }
 
 
+G = read.csv("~/ankit/Github/Social-Network-Analysis/dolphin.csv")
+G = graph_from_data_frame (G, directed = FALSE)
 show_communities (G)
-  
