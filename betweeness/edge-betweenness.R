@@ -31,12 +31,11 @@ show_communities <- function (G) {
   print (c1)
   print (c2)
   
-  V(G)$color = ifelse (V(G)$name %in% c2, "green", "blue")
+  V(G)$color = ifelse (V(G)%in% c2, "green", "blue")
 
   plot (G, color = V(G)$color, vertex.size = 8)  
 }
 
-
-G = read.csv("~/ankit/Github/Social-Network-Analysis/dolphin.csv")
-G = graph_from_data_frame (G, directed = FALSE)
+G = read_graph ("~/ankit/Github/Social-Network-Analysis/karate.gml", format = "gml")
 show_communities (G)
+
