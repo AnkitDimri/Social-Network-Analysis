@@ -28,10 +28,21 @@ show_communities <- function (G) {
   
   c1 = as.integer (comps$`1`)
   c2 = as.integer (comps$`2`)
+  print (c1)
+  print (c2)
   
-  V(G)$color = ifelse (V(G) %in% c1, "green", "blue")
+  V(G)$color = ifelse (V(G)$name %in% c2, "green", "blue")
   
-  tkplot (G, vertex.color = V(G)$color)  
+  # for (j in 1:length (c1)) {
+  #   for (i in 1:length (V (G))) {
+  #     if (as.integer (V(G)$name [i]) == c1 [j]) {
+  #       V(G)$color [i] = "green"  
+  #     }
+  #   }
+  # }
+  # print (V(G)$color)
+
+  plot (G, color = V(G)$color, vertex.size = 8)  
 }
 
 
