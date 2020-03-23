@@ -32,15 +32,6 @@ show_communities <- function (G) {
   print (c2)
   
   V(G)$color = ifelse (V(G)$name %in% c2, "green", "blue")
-  
-  # for (j in 1:length (c1)) {
-  #   for (i in 1:length (V (G))) {
-  #     if (as.integer (V(G)$name [i]) == c1 [j]) {
-  #       V(G)$color [i] = "green"  
-  #     }
-  #   }
-  # }
-  # print (V(G)$color)
 
   plot (G, color = V(G)$color, vertex.size = 8)  
 }
