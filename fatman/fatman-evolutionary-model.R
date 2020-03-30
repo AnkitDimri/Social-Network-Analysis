@@ -6,10 +6,11 @@ G = assign_bmi (G)
 G = add_foci_nodes (G)
 G = add_foci_edges (G)
 G = get_color (G)
-G = add_homophili(G)
+G = add_homophili (G)
+G = closure (G)
 
 
-plot (G, vertex.size = V(G)$size, vertex.shape = V (G)$shape, layout = layout_with_kk)
+tkplot (G, vertex.size = V(G)$size, vertex.shape = V (G)$shape, layout = layout_with_kk)
 
 
 
@@ -77,6 +78,26 @@ add_homophili <- function (lg) {
   }
   
   lg = as.undirected (lg, mode = "collapse")
+  
+  return (lg)
+}
+
+closure <- function (lg) {
+  
+  for (i in 1:length (V (lg))) 
+    for (j in 1:length (V (lg))) 
+      if (i != j) 
+        if (! (V (lg)$type [i] == "foci" && V (lg)$type [j] == "foci")) {
+          k = length (intersect (neighbors (lg, V (lg) [i]), neighbors (lg, V (lg) [j])))
+          p = 0.01 # probablity of connecting with 1 common neighbour
+          p = 1 - (1 - p)^k
+          
+          if (runif (1, 0, 1) < p)
+            lg = lg + edge (V (lg) [i], V (lg) [j])
+        }
+  
+  lg = as.undirected (lg, mode = "collapse")
+  simplify (lg, remove.multiple = TRUE, remove.loops = TRUE)
   
   return (lg)
 }
