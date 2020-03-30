@@ -1,23 +1,37 @@
 library (igraph)
 
-G = make_empty_graph (n = 100) 
+evolution (100)
 
-G = assign_bmi (G)
-G = add_foci_nodes (G)
-G = add_foci_edges (G)
-G = get_color (G)
-G = add_homophili (G)
-G = closure (G)
-G = social_influence (G)
-
-tkplot (G, vertex.size = V(G)$size, vertex.shape = V (G)$shape, layout = layout_with_kk)
-
-
+evolution <- function(N) {
+  
+  G = make_empty_graph (n = N) 
+  
+  G = assign_bmi (G)
+  G = add_foci_nodes (G)
+  G = add_foci_edges (G)
+  G = get_color (G)
+  G = add_homophili (G)
+ 
+  for (i in 1:10){
+    
+    G = closure (G)
+    G = social_influence (G)
+    G = get_color (G)
+    test.layout <- layout_(G,with_dh(weight.edge.lengths = edge_density(G)/ 100))
+    filename = paste ("~/ankit/Github/Social-Network-Analysis/fatman/evolution", i, ".png", sep = "")
+    png (filename, width = 1500, height = 1000)
+    plot (G, vertex.size = V(G)$size, vertex.shape = V (G)$shape, layout = layout_with_kk)
+    dev.off()
+    
+    i = i + 1
+  }
+  
+}
 
 assign_bmi <- function (lg) {
   V (lg)$name = V (lg)
   V (lg)$bmi = as.integer (runif (length (V(lg)), 15, 41))
-  V (lg)$size = V (lg)$bmi - 10
+  V (lg)$size = V (lg)$bmi/2 
   V (lg)$type = "person"
   V (lg)$color = "yellow"
   V (lg)$shape = "circle"
@@ -78,6 +92,7 @@ add_homophili <- function (lg) {
   }
   
   lg = as.undirected (lg, mode = "collapse")
+  lg = simplify (lg, remove.multiple = TRUE, remove.loops = TRUE)
   
   return (lg)
 }
@@ -97,7 +112,7 @@ closure <- function (lg) {
         }
   
   lg = as.undirected (lg, mode = "collapse")
-  simplify (lg, remove.multiple = TRUE, remove.loops = TRUE)
+  lg = simplify (lg, remove.multiple = TRUE, remove.loops = TRUE)
   
   return (lg)
 }
@@ -110,13 +125,13 @@ social_influence <- function (lg) {
   for (i in 1:length (n_g))
     if (V (lg)$size [n_g [i]] > 15) {
       V (lg)$bmi [n_g [i]] = V (lg)$bmi [n_g [i]] - 1
-      V (lg)$size [n_g [i]] = V (lg)$size [n_g [i]] - 1 
+      V (lg)$size [n_g [i]] = V (lg)$bmi [n_g [i]]/2 
     }
   
   for (i in 1:length (n_e))
     if (V (lg)$size [n_e [i]] < 40) {
       V (lg)$bmi [n_e [i]] = V (lg)$bmi [n_e [i]] + 1
-      V (lg)$size [n_e [i]] = V (lg)$size [n_e [i]] + 1
+      V (lg)$size [n_e [i]] = V (lg)$bmi [n_e [i]]/2
     }
   
   return (lg)
