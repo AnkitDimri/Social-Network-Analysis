@@ -9,7 +9,9 @@ labels = V(G)$name
 
 
 
-plot (G, labels = labels)
+
+
+plot (G, labels = labels, vertex.size = V(G)$name - 10)
 
 
 
@@ -18,3 +20,4 @@ assign_bmi <- function(g) {
   V (g)$type = "person"
   return (g)
 }
+
