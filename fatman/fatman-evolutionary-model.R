@@ -8,7 +8,7 @@ G = add_foci_edges (G)
 G = get_color (G)
 G = add_homophili (G)
 G = closure (G)
-
+G = social_influence (G)
 
 tkplot (G, vertex.size = V(G)$size, vertex.shape = V (G)$shape, layout = layout_with_kk)
 
@@ -98,6 +98,26 @@ closure <- function (lg) {
   
   lg = as.undirected (lg, mode = "collapse")
   simplify (lg, remove.multiple = TRUE, remove.loops = TRUE)
+  
+  return (lg)
+}
+
+social_influence <- function (lg) {
+  
+  n_e = neighbors (lg, V (lg) [V (lg)$name == "eatout"])
+  n_g = neighbors (lg, V (lg) [V (lg)$name == "gym"])
+  
+  for (i in 1:length (n_g))
+    if (V (lg)$size [n_g [i]] > 15) {
+      V (lg)$bmi [n_g [i]] = V (lg)$bmi [n_g [i]] - 1
+      V (lg)$size [n_g [i]] = V (lg)$size [n_g [i]] - 1 
+    }
+  
+  for (i in 1:length (n_e))
+    if (V (lg)$size [n_e [i]] < 40) {
+      V (lg)$bmi [n_e [i]] = V (lg)$bmi [n_e [i]] + 1
+      V (lg)$size [n_e [i]] = V (lg)$size [n_e [i]] + 1
+    }
   
   return (lg)
 }
