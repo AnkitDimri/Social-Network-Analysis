@@ -19,9 +19,9 @@ evolution <- function(N) {
     G = get_color (G)
     test.layout <- layout_(G,with_dh(weight.edge.lengths = edge_density(G)/ 100))
     filename = paste ("~/ankit/Github/Social-Network-Analysis/fatman/evolution", i, ".png", sep = "")
-    png (filename, width = 1500, height = 1000)
+    //png (filename, width = 1500, height = 1000)
     plot (G, vertex.size = V(G)$size, vertex.shape = V (G)$shape, layout = layout_with_kk)
-    dev.off()
+    //dev.off()
     
     i = i + 1
   }
