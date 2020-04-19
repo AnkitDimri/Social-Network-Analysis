@@ -45,17 +45,33 @@ color <- function (lg) {
 
 spread <- function (lg, t) {
   
+  a = c ()
+  for (i in 1:length (V (lg))) 
+    if (V(lg) [i]$accepted == "A")
+      a = c (a, V (lg) [i])
+    
+  u = c ()
+  n = c ()
+  for (i in 1:length (a)) {
+    n = neighbors (lg, a [i])
+    u = union (u, n)
+  }
+  
+  u_ = intersect (u, a)
+  if (length (u_ != 0))
+    u = u [u != intersect (u,a)]
   s = c ()
   flag = 0
-  for (i in 1:length (V (lg))) {
-    n = neighbors (lg, V (lg) [i])
+  print (u)
+  for (i in 1:length (u)) {
+    n = neighbors (lg, u [i])
     count = 0
     
     for (j in 1:length (n))
       if (V (lg) [n [j]]$accepted == "A")
         count = count + 1
     if (count / length (n) >= t) {
-      s = c (s, i)
+      s = c (s, u [i])
       flag = 1
     }
   }
