@@ -1,21 +1,38 @@
 library (igraph) # header file
 
-cascade <- function (graph) {
+cascade <- function (graph, frmt) {
   
-  G = read_raph (graph)
-  
+  G = read_graph (graph, format = frmt)
   V (G)$accepted = "B"
-  V (G)$accepted
+  G = color (G)
+  plot (G, vertex.color = V (G)$color)
   
   G = seeder (G)
+  G =  color (G)
+  plot (G, vertex.color = V (G)$color)
   
-  V (G)$accepted
+  G = seeder (G)
+  G = color (G)
+  plot (G, vertex.color = V (G)$color)
 }
 
-seeder <- function (G) {
+seeder <- function (lg) {
   
-  r = runif (1, 1, lentgh (V (G)))
+  r = runif (1, 1, length (V (lg)) + 1)
   r = floor (r)
   
-  V (G)$accepted [r] = "A"
+  V (lg)$accepted [r] = "A"
+  
+  return (lg)
 }
+
+color <- function (lg) {
+  
+  V (lg)$color = ifelse (V (lg)$accepted == "A", "green", "orange")
+  
+  return (lg)
+}
+
+
+cascade ("../karate.gml", "gml")
+
