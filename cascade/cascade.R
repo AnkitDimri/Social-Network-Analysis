@@ -22,7 +22,15 @@ cascade <- function (graph, frmt, threshold) {
     G = color (G)
     plot (G, vertex.color = V (G)$color)
     G = spread (G, threshold)
+    if (length (V (G) [V (G)$accepted == "A"]) == length (V (G))) {
+      G = color (G)
+      plot (G, vertex.color = V (G)$color)
+      break
+    }
   }
+  
+  size = length (V (G) [V (G)$accepted == "A"])
+  cat ("\nCascade size is", size, "out of", length (V (G)), "nodes\n")
   
 }
 
