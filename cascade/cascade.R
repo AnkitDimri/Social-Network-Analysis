@@ -65,9 +65,9 @@ spread <- function (lg, t) {
     u = union (u, n)
   }
   
-  u_ = intersect (u, a)
-  if (length (u_ != 0))
-    u = u [u != intersect (u,a)]
+  for (i in 1:length (a))
+    u = u [ u != a [i]]
+  
   s = c ()
   flag = 0
   print (u)
