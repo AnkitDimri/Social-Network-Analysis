@@ -63,7 +63,10 @@ epidemic <- function (lg, seeds, p, t_e, t_i, t_r, itr) {
       }
     
     cat ("\n\n\nDay", k)
-    plot (lg, vertex.color = V (color (lg))$color, main = paste ("Day", k))
+    
+    png (filename = paste ("Day", k, ".png", sep = ""), height = 1000, width = 1000)
+    plot (lg, vertex.color = V (color (lg))$color, main = paste ("Day", k), layout = layout_with_kk)
+    dev.off ()
     k = k+1
     
     # printing the states
@@ -75,10 +78,10 @@ epidemic <- function (lg, seeds, p, t_e, t_i, t_r, itr) {
   }  
 }
 
-epidemic (G, c (1, 20), 0.4, 3, 1, 8, 20)
+epidemic (G, c (1), 0.4, 3, 2, 2, 20)
 
 
-# DOLPHIN NETWORK (alpha = 5, beta = 0.9)
+# To read the Dolphin csv
 D = read.csv("dolphin.csv", header = F)
 D = data.frame (D)
 gd = make_empty_graph (n = 62)
@@ -87,4 +90,4 @@ for (x in 1:nrow (D))
   gd = gd + edge (D [x, "V1"], D [x, "V2"])
 gd = as.undirected (gd, mode = "collapse")
 
-epidemic (gd, c (1), 0.4, 2, 2, 2, 10)
+epidemic (gd, c (1), 0.4, 2, 2, 2, 20)
