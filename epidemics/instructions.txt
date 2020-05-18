@@ -1,0 +1,16 @@
+Instructions to run the R script:
+
+Just compile both the functions in seirs.R and import IGRAPH library
+
+once done with given inputs call the function epidemics
+
+function (lg, seeds, p, t_e, t_i, t_r, itr)
+
+where
+lg is the Igraph object
+p is the probablity of disease
+seeds is the seed nodes you want to infect in the begining
+t_e is the time stamp of exposed
+t_i is the time stamp of infected
+t_r is the time stamp of recovered
+itr is the number of iterations you want
